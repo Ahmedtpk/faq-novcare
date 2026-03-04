@@ -1,13 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { ContentfulAccordionItem } from "@/types/contentful/accordion";
 
 interface AccordionProps {
+  items?: ContentfulAccordionItem[];
+}
+
+interface AccordionItemCardProps {
   question: string;
   answer: string;
 }
 
-export default function Accordion({ question, answer }: AccordionProps) {
+function AccordionItemCard({ question, answer }: AccordionItemCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState("0px");
@@ -36,6 +41,24 @@ export default function Accordion({ question, answer }: AccordionProps) {
           <p className="text-black">{answer}</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function Accordion({ items = [] }: AccordionProps) {
+  if (items.length === 0) {
+    return <p className="text-center text-gray-500">No accordion items found</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      {items.map((item, index) => (
+        <AccordionItemCard
+          key={`${item.sys?.id ?? item.internalName ?? item.name ?? "accordion-item"}-${index}`}
+          question={item.name ?? ""}
+          answer={item.text ?? ""}
+        />
+      ))}
     </div>
   );
 }

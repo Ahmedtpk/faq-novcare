@@ -1,28 +1,25 @@
-// Minimal types used by the app (GraphQL + REST compatible)
-export interface Sys {
-  id: string;
+export interface ContentfulSys {
+  id?: string;
 }
 
-export interface AccordionItemFields {
+export interface ContentfulAccordionItem {
+  sys?: ContentfulSys;
   internalName?: string;
-  name: string;
-  text: string;
+  name?: string;
+  text?: string;
 }
 
-export interface AccordionItem {
-  sys: Sys;
-  fields: AccordionItemFields;
-}
-
-export interface AccordionFields {
-  internalName?: string;
+export interface ContentfulAccordionEntry {
+  sys?: ContentfulSys;
   title?: string;
-  accordionItems: AccordionItem[];
+  internalName?: string;
+  accordionItemsCollection?: {
+    items?: ContentfulAccordionItem[];
+  };
 }
 
-export interface AccordionEntry {
-  sys: Sys;
-  fields: AccordionFields;
+export interface ContentfulFaqsResponse {
+  accordionCollection?: {
+    items?: ContentfulAccordionEntry[];
+  };
 }
-
-export type AccordionData = AccordionEntry[];
